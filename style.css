@@ -89,6 +89,15 @@ footer a {
 .calendar_content a:hover {
   text-decoration: underline;
 }
+.pub_label {
+  font-size:0.5em;
+  display: inline-block;
+  background: #89972E;
+  color:#fff;
+  padding: 3px;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
 
 @media (max-width: 700px) {
   body {
