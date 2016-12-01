@@ -1,0 +1,16 @@
+## How to write for web.adcent.today
+- [ ] Comment on this issue "I want to write for this day!" & brief topic of what you want to write about.
+
+Once you express interest, I'll mark this issue as taken & update website.
+
+## How to submit writing 
+### If you have your own blog or want to use other platform like medium 
+- [ ] comment on this issue with link to your post
+
+### If you don't have your blog or don't want to use other platform
+- [ ] write your post in markdown under `/2016` directory, then send PR to this repository.
+
+## What should I write about ?
+Anything you are interested at the moment ! That being said, this is organized by a web developer and targeted to audience who also work in web industry. With that in mind, I welcome range of topics from productivity hacks to cool design you made. Just think of the kind of things you would show for lightning talk at meetups. 
+
+It really don't need to be full-on tutorial or super cutting edge technology 🙅 (f'ck em). If you had some fun writing it & enjoyed sharing with others, that's the most important part ✨.
