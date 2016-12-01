@@ -1,6 +1,249 @@
 <!DOCTYPE html>
 <html>
+<style>
+  html{
+    background: url(./img/ornament4.png);
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 200px;
+    background-color: #FCF6E5;
+  }
+  body {
+    margin: 0;
+    padding:0px 30px;
+    font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+    color: #5C6D74;
+    background: url(./img/ornament3.png);
+    background-repeat: no-repeat;
+    background-position: left top;
+    background-size: 200px;
+  }
+  table {
+    width:100%;
+  }
+  td {
+    width: 14%;
+    vertical-align:top;
+    background-color: #FFF;
+    overflow: scroll;
+  }
+  tbody tr {
+    height:180px;
+  }
+  .calendar_date {
+    height:25px;
+    line-height: 25px;
+    text-align: left;
+    padding-left: 10px;
+    margin: 0px;
+  }
+  tbody .calendar_date {
+    color:#fff;
+    background-color: #4FA099;
+  }
+  .disabled_date {
+    color: #999;
+  }
+  .disabled_date .calendar_date{
+    background-color: white;
+  }
+  #header {
+    padding: 40px 20px;
+    text-align: center
+  }
+  header h1 {
+    font-size:4em;
+    color:#C44680;
+    text-shadow: 2px 3px #fff;
+  }
+  header p {
+    font-size:1.2em;
+    text-shadow: 1px 1px #fff;
+  }
+  footer {
+    font-size:0.8em;
+    text-align: center;
+  }
+  footer a {
+    text-decoration: none;
+    color: #4FA099;
+  }
+  .calendar_content {
+    padding: 0px 10px;
+  }
+  .btn {
+    display: block;
+    background-color: #C44680;
+    width:80%;
+    text-align: center;
+    color: #fff;
+    border-radius: 5px;
+    padding:5px;
+    margin: 10px auto;
+  }
+  .entry_title {
+    font-size: 0.8em;
+  }
+  .calendar_content a {
+    color: #5C6D74;
+    text-decoration: none;
+  }
+  .calendar_content a:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 700px) {
+    body {
+      padding: 0px;
+    }
+    td {
+      display: block;
+      width:100%;
+    }
+    th {
+      display: none;
+    }
+    .disabled_date {
+      display: none;
+    }
+  }
+</style>
 <body>
-  <h1>IT'S HAPPENING!</h1>
+  <header id="header">
+    <h1>Web Advent Calendar</h1>
+    <p>Collection of 25 writings by web designers and developers, on things they are excited about. <br>Work on fun projects lately? Did you learn something today? Click on "Write for this day!" to share your story!</p>
+  </header>
+  <table>
+    <thead>
+      <tr>
+        <th><p class="calendar_date">Mon</p></th>
+        <th><p class="calendar_date">Tue</p></th>
+        <th><p class="calendar_date">Wed</p></th>
+        <th><p class="calendar_date">Thur</p></th>
+        <th><p class="calendar_date">Fri</p></th>
+        <th><p class="calendar_date">Sat</p></th>
+        <th><p class="calendar_date">Sun</p></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="disabled_date"><p class="calendar_date">28</p></td>
+        <td class="disabled_date"><p class="calendar_date">29</p></td>
+        <td class="disabled_date"><p class="calendar_date">30</p></td>
+        <td>
+          <p class="calendar_date">1</p>
+          <div class="calendar_content">
+            <p class="entry_author"><a href="https://twitter.com/kosamari"><img src="https://avatars0.githubusercontent.com/u/4581495" width=18 height=18> kosamari</a></p>
+            <p class="entry_title"><a href="/" title="">something about worker</a></p>
+          </div>
+        </td>
+        <td>
+          <p class="calendar_date">2</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/2">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">3</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/3">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">4</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/4">Write for this day !</a></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="calendar_date">5</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/5">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">6</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/6">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">7</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/7">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">8</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/8">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">9</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/9">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">10</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/10">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">11</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="calendar_date">12</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/12">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">13</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/13">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">14</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/14">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">15</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/15">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">16</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/16">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">17</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/17">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">18</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/18">Write for this day !</a></div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <p class="calendar_date">19</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">20</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">21</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">22</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">23</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">24</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+        <td>
+          <p class="calendar_date">25</p>
+          <div class="calendar_join"><a class="btn" href="https://github.com/kosamari/web.advent.today/issues/11">Write for this day !</a></div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <footer>
+    <p>Web Advent Calendar is orgnized by <a href="https://twitter.com/kosamari">@kosamari</p>
+  </footer>
 </body>
 </html>
