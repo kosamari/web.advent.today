@@ -1,0 +1,106 @@
+html{
+  background: url(./img/ornament4.png);
+  background-repeat: no-repeat;
+  background-position: right top;
+  background-size: 200px;
+  background-color: #FCF6E5;
+}
+body {
+  margin: 0;
+  padding:0px 30px;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, sans-serif;
+  color: #5C6D74;
+  background: url(./img/ornament3.png);
+  background-repeat: no-repeat;
+  background-position: left top;
+  background-size: 200px;
+}
+table {
+  width:100%;
+}
+td {
+  width: 14%;
+  vertical-align:top;
+  background-color: #FFF;
+  overflow: scroll;
+}
+tbody tr {
+  height:180px;
+}
+.calendar_date {
+  height:25px;
+  line-height: 25px;
+  text-align: left;
+  padding-left: 10px;
+  margin: 0px;
+}
+tbody .calendar_date {
+  color:#fff;
+  background-color: #4FA099;
+}
+.disabled_date {
+  color: #999;
+}
+.disabled_date .calendar_date{
+  background-color: white;
+}
+#header {
+  padding: 40px 20px;
+  text-align: center
+}
+header h1 {
+  font-size:4em;
+  color:#C44680;
+  text-shadow: 2px 3px #fff;
+}
+header p {
+  font-size:1.2em;
+  text-shadow: 1px 1px #fff;
+}
+footer {
+  font-size:0.8em;
+  text-align: center;
+}
+footer a {
+  text-decoration: none;
+  color: #4FA099;
+}
+.calendar_content {
+  padding: 0px 10px;
+}
+.btn {
+  display: block;
+  background-color: #C44680;
+  width:80%;
+  text-align: center;
+  color: #fff;
+  border-radius: 5px;
+  padding:5px;
+  margin: 10px auto;
+}
+.entry_title {
+  font-size: 0.8em;
+}
+.calendar_content a {
+  color: #5C6D74;
+  text-decoration: none;
+}
+.calendar_content a:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 700px) {
+  body {
+    padding: 0px;
+  }
+  td {
+    display: block;
+    width:100%;
+  }
+  th {
+    display: none;
+  }
+  .disabled_date {
+    display: none;
+  }
+}
