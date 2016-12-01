@@ -88,7 +88,12 @@ footer a {
 }
 .calendar_content a:hover {
   text-decoration: underline;
+  cursor: pointer;
 }
+.entry_title a {
+  text-decoration: underline;
+}
+
 .pub_label {
   font-size:0.5em;
   display: inline-block;
