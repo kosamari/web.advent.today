@@ -43,167 +43,167 @@ __How do I test my React+Redux code?__
 
 We have been following an approach where we test each of the moving parts independently.
 
-  Components
-  ==========
+Components
+----------
+A React component is a view only component, with some event handling and some local state. It is `connect`ed to the Redux store for state and actions.
+We test the base component, which is free of Redux. For a component like,
 
-    A React component is a view only component, with some event handling and some local state. It is `connect`ed to the Redux store for state and actions.
-    We test the base component, which is free of Redux. For a component like,
+__my-component.js__
 
-    __my-component.js__
+```javascript
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
 
-    ```javascript
-    import React, {Component} from 'react';
-    import {connect} from 'react-redux';
-
-    export class MyComponent extends Component {
-      constructor () {
-        super();
-        this.state = {
-          localProp: 'Default'
-        };
-      }
-      handleClick = () => {
-        this.setState({
-          localProp: 'After click'
-        });
-      }
-      render () {
-        return (<div>
-          <div>{this.props.reduxProp}</div>
-          <div>{this.state.localProp}</div>
-          <div onClick={this.handleClick}>Click me</div>
-        </div>);
-      }
+export class MyComponent extends Component {
+    constructor () {
+    super();
+    this.state = {
+        localProp: 'Default'
+    };
     }
-
-    export default connect(reduxState => ({reduxProp: reduxState.prop}) )(MyComponent)
-    ```
-
-    __my-component.test.js__
-
-    ```javascript
-    // needed for jsx
-    import React from 'react';
-    // import the named export
-    import {MyComponent} from './my-component';
-    // enzyme has rendering utils
-    import {shallow} from 'enzyme';
-    // needed to create snapshot
-    import {shallowToJson} from 'enzyme-to-json';
-
-    describe('<MyComponent />', () => {
-      let component;
-      // create an instance of MyComponent before each test
-      beforeEach(() => {
-        component = shallow(<MyComponent reduxProp="A test prop" />);
-      });
-      // test rendering expectations
-      it('should render well', () => {
-        // DOM test
-        expect(component.contains(<div>A test prop</div>)).toBe(true);
-        expect(component.contains(<div>Default</div>)).toBe(true);
-        // Match snapshots (creates the first time)
-        expect(shallowToJson(component)).toMatchSnapshot();
-      });
-      // test the action
-      it('should change text after click', () => {
-        //find particular DOM and simulate click
-        component.childAt(2).simulate('click');
-        test expectation after click is done
-        expect(component.text().indexOf('After click') > -1).toBe(true);
-        // match snapshot because view changed.
-        expect(shallowToJson(component)).toMatchSnapshot();
-      });
+    handleClick = () => {
+    this.setState({
+        localProp: 'After click'
     });
-    ```
+    }
+    render () {
+    return (<div>
+        <div>{this.props.reduxProp}</div>
+        <div>{this.state.localProp}</div>
+        <div onClick={this.handleClick}>Click me</div>
+    </div>);
+    }
+}
 
-    Reducers
-    ========
+export default connect(reduxState => ({reduxProp: reduxState.prop}) )(MyComponent)
+```
 
-    Reducers, being pure functions, are ridiculously easy to test. The redux docs [shows how to do this](http://redux.js.org/docs/recipes/WritingTests.html#reducers).
+__my-component.test.js__
 
-    Actions
-    =======
+```javascript
+// needed for jsx
+import React from 'react';
+// import the named export
+import {MyComponent} from './my-component';
+// enzyme has rendering utils
+import {shallow} from 'enzyme';
+// needed to create snapshot
+import {shallowToJson} from 'enzyme-to-json';
 
-    We used the [recommended technique](http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators), but instead of using `nock` we decided to mock the `fetch` api with Jest's easy mocking system.
+describe('<MyComponent />', () => {
+    let component;
+    // create an instance of MyComponent before each test
+    beforeEach(() => {
+    component = shallow(<MyComponent reduxProp="A test prop" />);
+    });
+    // test rendering expectations
+    it('should render well', () => {
+    // DOM test
+    expect(component.contains(<div>A test prop</div>)).toBe(true);
+    expect(component.contains(<div>Default</div>)).toBe(true);
+    // Match snapshots (creates the first time)
+    expect(shallowToJson(component)).toMatchSnapshot();
+    });
+    // test the action
+    it('should change text after click', () => {
+    //find particular DOM and simulate click
+    component.childAt(2).simulate('click');
+    test expectation after click is done
+    expect(component.text().indexOf('After click') > -1).toBe(true);
+    // match snapshot because view changed.
+    expect(shallowToJson(component)).toMatchSnapshot();
+    });
+});
+```
 
-    __asyncUtil.js__
-    ```javascript
-    import configureMockStore from 'redux-mock-store';
-    import thunk from 'redux-thunk';
-    import fetchMock from 'fetch-mock';
+Reducers
+--------
 
-    export const runsynctest = ({testName, expectedAction, fn, params}) => {
-      it(testName, () => {
-        /* eslint-disable no-useless-call */
-        expect(fn.call(null, ...params)).toEqual(expectedAction);
-      });
-    };
-    export const runasynctest = ({testName, expectedActions, fn, params}) => {
-      const middlewares = [ thunk ];
-      const mockStore = configureMockStore(middlewares);
-      const store = mockStore();
-      fetchMock.mock('*', {hello: 'world'}); // TODO: how to customise this?
-      it(testName, () => {
-        return store
-        .dispatch(fn.call(null, ...params)) /* eslint-disable no-useless-call */
-        .then(args => {
-          expect(store.getActions()).toEqual(expectedActions);
-        });
-      });
-    };
-    ```
+Reducers, being pure functions, are ridiculously easy to test. The redux docs [shows how to do this](http://redux.js.org/docs/recipes/WritingTests.html#reducers).
 
-    __my-action.test.js__
-    import { runasynctest, runsynctest } from './actionsUtil';
-    // fetchVal is your typical fetch action which returns a promise
-    import { fetchVal } from '../my-actions';
-    import * as types from 'constants/my-constants';
+Actions
+-------
 
-    describe('async-actions', () => {
-      runasynctest(
+We used the [recommended technique](http://redux.js.org/docs/recipes/WritingTests.html#async-action-creators), but instead of using `nock` we decided to mock the `fetch` api with Jest's easy mocking system.
+
+__asyncUtil.js__
+
+```javascript
+import configureMockStore from 'redux-mock-store';
+import thunk from 'redux-thunk';
+import fetchMock from 'fetch-mock';
+
+export const runsynctest = ({testName, expectedAction, fn, params}) => {
+    it(testName, () => {
+    /* eslint-disable no-useless-call */
+    expect(fn.call(null, ...params)).toEqual(expectedAction);
+    });
+};
+export const runasynctest = ({testName, expectedActions, fn, params}) => {
+    const middlewares = [ thunk ];
+    const mockStore = configureMockStore(middlewares);
+    const store = mockStore();
+    fetchMock.mock('*', {hello: 'world'}); // TODO: how to customise this?
+    it(testName, () => {
+    return store
+    .dispatch(fn.call(null, ...params)) /* eslint-disable no-useless-call */
+    .then(args => {
+        expect(store.getActions()).toEqual(expectedActions);
+    });
+    });
+};
+```
+
+__my-action.test.js__
+import { runasynctest, runsynctest } from './actionsUtil';
+// fetchVal is your typical fetch action which returns a promise
+import { fetchVal } from '../my-actions';
+import * as types from 'constants/my-constants';
+
+describe('async-actions', () => {
+    runasynctest(
+    {
+        testName: 'should simulate fetch action',
+        expectedActions: [
+        { type: types.GET__REQUEST },
         {
-          testName: 'should simulate fetch action',
-          expectedActions: [
-            { type: types.GET__REQUEST },
-            {
-              type: types.GET__SUCCESS,
-              pids: [1, 2]
-            }
-          ],
-          fn: fetchVal,
-          params: [[1, 2]]
-        });
+            type: types.GET__SUCCESS,
+            pids: [1, 2]
+        }
+        ],
+        fn: fetchVal,
+        params: [[1, 2]]
     });
+});
 
-    Components with Actions
-    =======================
+Components with Actions
+-----------------------
 
-    If in the above example for `MyComponent`'s testing, the `handleClick` were to send actions with redux like
+If in the above example for `MyComponent`'s testing, the `handleClick` were to send actions with redux like
 
-    __my-component.js__
-    ```javascript
-    ...
+__my-component.js__
+```javascript
+...
 
-    handleClick = event => {
-      this.props.fetchValAction(event);
-    }
+handleClick = event => {
+    this.props.fetchValAction(event);
+}
 
-    ...
-    ```
+...
+```
 
-    __my-component.test.js__
-    ```javascript
-    describe('<MyComponent />', () => {
-      it('should call fetchVal action', () => {
-        const mockFetchVal = jest.mock();
-        const component = mount(<MyComponent fetchValAction={mockFetchVal}/>);
-        component.childAt(2).simulate('click');
-        expect(mockFetchVal).toHaveBeenCalled();
-      })
+__my-component.test.js__
+```javascript
+describe('<MyComponent />', () => {
+    it('should call fetchVal action', () => {
+    const mockFetchVal = jest.mock();
+    const component = mount(<MyComponent fetchValAction={mockFetchVal}/>);
+    component.childAt(2).simulate('click');
+    expect(mockFetchVal).toHaveBeenCalled();
     })
-    ```
-    tldr; Various solutions can be adopted. Choose whichever suits your environment.
+})
+```
+tldr; Various solutions can be adopted. Choose whichever suits your environment.
 
 __How do I test asynchronous functions?__
 
