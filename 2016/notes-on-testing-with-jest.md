@@ -274,3 +274,7 @@ __Can I calculate coverage?__
 
 I'm glad you asked the question! Coverage stats are inbuilt within Jest. No configuration is required. `jest --coverage` does it.
 The downside is that it considerably slows down your test runs. Hence we don't keep it on during development. There are also really cool features like coverage thresholds. You can learn this by watching this excellent video on [Egghead.io by @kentcdodds](https://egghead.io/lessons/javascript-track-project-code-coverage-with-jest).
+
+## Conclusion
+
+Its been a couple of weeks since we started using `Jest`. Code Coverage is slowly growing within the team. However we have configured our PR builds to fail if existing tests fail, that include snapshots. In the future, we plan to have coverage thresholds too!
