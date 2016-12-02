@@ -154,6 +154,8 @@ export const runasynctest = ({testName, expectedActions, fn, params}) => {
 ```
 
 __my-action.test.js__
+
+```javascript
 import { runasynctest, runsynctest } from './actionsUtil';
 // fetchVal is your typical fetch action which returns a promise
 import { fetchVal } from '../my-actions';
@@ -174,6 +176,7 @@ describe('async-actions', () => {
         params: [[1, 2]]
     });
 });
+```
 
 Components with Actions
 -----------------------
@@ -181,6 +184,7 @@ Components with Actions
 If in the above example for `MyComponent`'s testing, the `handleClick` were to send actions with redux like
 
 __my-component.js__
+
 ```javascript
 ...
 
@@ -192,6 +196,7 @@ handleClick = event => {
 ```
 
 __my-component.test.js__
+
 ```javascript
 describe('<MyComponent />', () => {
     it('should call fetchVal action', () => {
@@ -202,6 +207,7 @@ describe('<MyComponent />', () => {
     })
 })
 ```
+
 tldr; Various solutions can be adopted. Choose whichever suits your environment.
 
 __How do I test asynchronous functions?__
