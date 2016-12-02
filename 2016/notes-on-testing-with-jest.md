@@ -135,21 +135,20 @@ import fetchMock from 'fetch-mock';
 
 export const runsynctest = ({testName, expectedAction, fn, params}) => {
     it(testName, () => {
-    /* eslint-disable no-useless-call */
-    expect(fn.call(null, ...params)).toEqual(expectedAction);
+        expect(fn.call(null, ...params)).toEqual(expectedAction);
     });
 };
 export const runasynctest = ({testName, expectedActions, fn, params}) => {
     const middlewares = [ thunk ];
     const mockStore = configureMockStore(middlewares);
     const store = mockStore();
-    fetchMock.mock('*', {hello: 'world'}); // TODO: how to customise this?
+    fetchMock.mock('*', params); // This can be customised
     it(testName, () => {
     return store
-    .dispatch(fn.call(null, ...params)) /* eslint-disable no-useless-call */
-    .then(args => {
-        expect(store.getActions()).toEqual(expectedActions);
-    });
+        .dispatch(fn.call(null, ...params))
+        .then(args => {
+            expect(store.getActions()).toEqual(expectedActions);
+        });
     });
 };
 ```
