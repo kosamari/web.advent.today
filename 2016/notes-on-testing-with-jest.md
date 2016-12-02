@@ -1,16 +1,16 @@
-## Notes on Jest
+# Notes on Jest
 
-During the past 4 months, I have been working on the Flipkart desktop website team. For me it meant finally working on code at scale. If there was any place where TDD would be appreciated, it was here, on user facing critical code. The tests were being written on a setup of Karma, Mocha, Sinon and Enzyme. It worked pretty great, but the major peeve for all of us was that it was so slow!
+During the past 4 months, I have been working on the Flipkart desktop website team. For me it meant finally working on code at scale. If there was any place where TDD would be appreciated, it was here, on user facing critical code. The tests were being written on a setup of Karma, Mocha, Sinon and Enzyme. It worked pretty great, but the major peeve for all of us, was that, it was so slow!
 
-The team had already tried using Jest before and had faced many issues with the automocking and given up. But then Jest made a turnaround and with a great community effort released improved and [new versions](https://facebook.github.io/jest/blog/2016/10/03/jest-16.html). From all the blogposts, we found that Jest's main focus was testing performance and something new called ["Snapshot testing"](https://facebook.github.io/jest/blog/2016/07/27/jest-14.html). Also, mainly it promised to be "Painless JavaScript Testing" with a special focus on React.
+The team had already tried using Jest before, had faced many issues with the automocking and given up. But then Jest made a turnaround and with a great community effort released improved and [new versions](https://facebook.github.io/jest/blog/2016/10/03/jest-16.html). From all the blogposts, we found that Jest's main focus was testing performance and something new called ["Snapshot testing"](https://facebook.github.io/jest/blog/2016/07/27/jest-14.html). Also, mainly it promised to be "Painless JavaScript Testing" with a special focus on React.
 
 This post wants to be an FAQ guide which would have given us extra help during this transition.
 
-### FAQs
+## FAQs
 
 The FAQs are categorised by the facet of testing that they cover. These may also apply to any testing in general.
 
-#### Fundamentally speaking
+### Fundamentally speaking
 
 __Why should we move to `Jest` when we already have a working setup?__
 
@@ -26,22 +26,26 @@ A move to Jest would mean a somewhat change in paradigm and would involve team e
 __What about testing on the browser?__
 
 Yes, the earlier setup opened a chromium browser and tested our components. It was pretty cool actually. But, it was one of the things that made executing tests slow for us. Being priviledged enough to have manual QA, we decided to forego this functionality.
+
 For more reasoning, you should [read this](https://github.com/facebook/jest/issues/139#issuecomment-229277654) by [@cpojer](https://github.com/cpojer) on why Facebook doesn't need them.
 Also, we are open to using [React storybook](https://getstorybook.io/) in the future, which I think has potential for browser testing.
 
 __What is Snapshot testing? Will it really help?__
 
-Snapshot testing, is a procedure in which, Jest generates readable snapshots of your component's view. A snapshot is basically a text file with xml, which acts like the source of your view, at that point in your testcase. Different snapshots can be created with different props to your components. Snapshots can be saved after simulating events like click and hover. The point would be to save the expected view of your component which is a function of some mock data. If in the future a developer changes your component, Jest would create a new snapshot of the component and compare it with the saved snapshot. If there is a change in view, it will alert the developer and she will have to tell Jest to save this new snapshot. Since the snapshot is committed to version control, it will show up in a code review and the changes can be approved accordingly.
-While we still have reservations of if its actually feasible to review large changes in the snapshot, I definitely think this enriches the content of a code review.
+Snapshot testing, is a procedure in which, Jest generates readable snapshots of your component's view. A snapshot is basically a text file with xml, which acts like the source of your view, at that point in your testcase. Different snapshots can be created with different props to your components.
 
-#### Implementation Questions
+Snapshots can be saved after simulating events like `click` and `hover`. The point would be to save the expected view of your component which is a function of some mock data. If in the future, a developer changes your component, Jest would create a new snapshot of the component and compare it with the saved snapshot. If there is a change in view, it will alert the developer and she will have to tell Jest to save this new snapshot. Since the snapshot is committed to version control, it will show up in a code review and the changes can be approved accordingly.
+While we still have reservations of, if its actually feasible to review large changes in the snapshot, I definitely think this enriches the content of a code review.
+
+### Implementation Questions
 
 __How do I test my React+Redux code?__
 
 We have been following an approach where we test each of the moving parts independently.
 
   Components
-  ----------
+  ==========
+
     A React component is a view only component, with some event handling and some local state. It is `connect`ed to the Redux store for state and actions.
     We test the base component, which is free of Redux. For a component like,
 
