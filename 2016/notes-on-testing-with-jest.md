@@ -2,7 +2,7 @@
 
 During the past 4 months, I have been working on the Flipkart desktop website team. For me it meant finally working on code at scale. If there was any place where TDD would be appreciated, it was here, on user facing critical code. The tests were being written on a setup of Karma, Mocha, Sinon and Enzyme. It worked pretty great, but the major peeve for all of us, was that, it was so slow!
 
-The team had already tried using Jest before, had faced many issues with the automocking and given up. But then Jest made a turnaround and with a great community effort released improved and [new versions](https://facebook.github.io/jest/blog/2016/10/03/jest-16.html). From all the blogposts, we found that Jest's main focus was testing performance and something new called ["Snapshot testing"](https://facebook.github.io/jest/blog/2016/07/27/jest-14.html). Also, mainly it promised to be "Painless JavaScript Testing" with a special focus on React.
+The team had already tried using Jest before, had faced many issues with the automocking and given up. But then Jest made a turnaround and with a great community effort released improved and [new versions](https://facebook.github.io/jest/blog/2016/10/03/jest-16.html). From all the blogposts, we found that Jest's main focus was testing performance and something new called ["Snapshot testing"](https://facebook.github.io/jest/blog/2016/07/27/jest-14.html). Also, mainly it promised to be "Painless JavaScript Testing". Jest can mostly work for testing in any JavaScript framework or environment. Also, its a known fact that Jest uses itself to test it's codebase.
 
 This post wants to be an FAQ guide which would have given us extra help during this transition.
 
@@ -20,8 +20,8 @@ A move to Jest would mean a somewhat change in paradigm and would involve team e
   - I really liked the interactive CLI that comes with it. In `watch` mode, Jest runs only the tests associated with your code changes. But it allows you to interact with the tests by providing functionality to update snapshots, search for a particular suite, run all tests if you want to.
   - [Great documentation](https://facebook.github.io/jest/docs/getting-started.html)
   - Snapshot testing for components. It is kind of tailor made for React apps.
-  - Easy configuration and great defaults. Running `jest` alone would be enough to run test files. Mocking is not a marriage of complexity and confusion.
-  - Existing tests could be [easily migrated](https://facebook.github.io/jest/docs/migration-guide.html#content)
+  - Great defaults meaning "Zero" configuration. Running `jest` alone would be enough to run test files. Mocking is not a marriage of complexity and confusion.
+  - Existing tests could be easily migrated [manually or through automated codemods](https://facebook.github.io/jest/docs/migration-guide.html#content)
 
 __What about testing on the browser?__
 
@@ -35,7 +35,7 @@ __What is Snapshot testing? Will it really help?__
 Snapshot testing, is a procedure in which, Jest generates readable snapshots of your component's view. A snapshot is basically a text file with xml, which acts like the source of your view, at that point in your testcase. Different snapshots can be created with different props to your components.
 
 Snapshots can be saved after simulating events like `click` and `hover`. The point would be to save the expected view of your component which is a function of some mock data. If in the future, a developer changes your component, Jest would create a new snapshot of the component and compare it with the saved snapshot. If there is a change in view, it will alert the developer and she will have to tell Jest to save this new snapshot. Since the snapshot is committed to version control, it will show up in a code review and the changes can be approved accordingly.
-While we still have reservations of, if its actually feasible to review large changes in the snapshot, I definitely think this enriches the content of a code review.
+While we still have reservations of, if its actually feasible to review large changes in the snapshot, I definitely think this enriches the content of a code review.(**Edit** [@cpojer](https://github.com/cpojer) said in this [comment](https://github.com/kosamari/web.advent.today/pull/27#discussion_r91407888) that snapshots are even more powerful!)
 
 ### Implementation Questions
 
@@ -94,24 +94,24 @@ describe('<MyComponent />', () => {
     let component;
     // create an instance of MyComponent before each test
     beforeEach(() => {
-    component = shallow(<MyComponent reduxProp="A test prop" />);
+        component = shallow(<MyComponent reduxProp="A test prop" />);
     });
     // test rendering expectations
     it('should render well', () => {
-    // DOM test
-    expect(component.contains(<div>A test prop</div>)).toBe(true);
-    expect(component.contains(<div>Default</div>)).toBe(true);
-    // Match snapshots (creates the first time)
-    expect(shallowToJson(component)).toMatchSnapshot();
+        // DOM test
+        expect(component.contains(<div>A test prop</div>)).toBe(true);
+        expect(component.contains(<div>Default</div>)).toBe(true);
+        // Match snapshots (creates the first time)
+        expect(shallowToJson(component)).toMatchSnapshot();
     });
     // test the action
     it('should change text after click', () => {
-    //find particular DOM and simulate click
-    component.childAt(2).simulate('click');
-    test expectation after click is done
-    expect(component.text().indexOf('After click') > -1).toBe(true);
-    // match snapshot because view changed.
-    expect(shallowToJson(component)).toMatchSnapshot();
+        //find particular DOM and simulate click
+        component.childAt(2).simulate('click');
+        test expectation after click is done
+        expect(component.text().indexOf('After click') > -1).toBe(true);
+        // match snapshot because view changed.
+        expect(shallowToJson(component)).toMatchSnapshot();
     });
 });
 ```
@@ -260,6 +260,8 @@ __I can't get PostCSS to work!__
 This was one area where Jest fell short of expectations. `karma` allows you directly put in `webpack` transformations onto the configuration. `Jest` has [equivalent configuration](https://facebook.github.io/jest/docs/tutorial-webpack.html#content) which is mapped to `webpack` config. But we found it to be adequate for our needs except that we could not get PostCSS plugins to work. Babel preprocessing is done out of the box using [`babel-jest`](http://facebook.github.io/jest/docs/getting-started.html#babel-integration) which comes bundled with Jest in the latest version. Jest can support [some preprocessors](https://facebook.github.io/jest/docs/configuration.html#transform-object-string-string), but somehow cannot support PostCSS as it has asynchronous plugins.
 So we had to use this proxy called [identity-obj-proxy](https://github.com/keyanzhang/identity-obj-proxy) to proxy our styles with the given className.
 
+An alternative would be to try [this advice](https://github.com/kosamari/web.advent.today/pull/27#discussion_r91408412) to preprocess all the css for easy consumption.
+
 For example for JSX,
 
 `<div className={styles['button-class']}>Click</div>`
@@ -277,4 +279,4 @@ The downside is that it considerably slows down your test runs. Hence we don't k
 
 ## Conclusion
 
-Its been a couple of weeks since we started using `Jest`. Code Coverage is slowly growing within the team. However we have configured our PR builds to fail if existing tests fail, that include snapshots. In the future, we plan to have coverage thresholds too!
+Its been a couple of weeks since we started using `Jest`. Code Coverage is slowly growing within the team. However we have configured our PR builds to fail if existing tests fail, that includes snapshots. In the future, we plan to have coverage thresholds too!
